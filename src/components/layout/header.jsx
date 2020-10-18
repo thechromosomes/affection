@@ -3,7 +3,9 @@ import React from 'react';
 const Header = () => {
     return (
         <>
-            <h1>this is header for heroku app</h1>
+        <div className="main_nav_bar">
+            <p>this is header for heroku app</p>
+        </div>
         </>
      );
 }

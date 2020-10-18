@@ -1,33 +1,36 @@
 import  React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import App from './App';
 import Error from './error'
-import Header from '../layout/header'
+import Home from '../landingPage/home'
+import App from '../app/App'
 import Footer from '../layout/footer'
-import MainWrapper from '../app/MainWrapper'
+import Editor from '../editor/mainEditor'
 
+// add routes for all pages
 const Pages = () => (
     <Switch>
-        <Route path="/" exact component={App} />
+        <Route path="/edit" exact component={Editor}/>
         <Route component={Error} />
     </Switch>
 )
 
+// this will wrap the app into beauty
 const wrappedRoutes = () => (
     <div>
-      <Header />
-        <MainWrapper>
-            <Route path="/" component={Pages} />
-        </MainWrapper>
+      <App>
+          <Route component={Pages} />
+      </App>
       <Footer/>
     </div>
   )
 
+// this will specify route
 const Router = () => {
     return (
         <main>
           <Switch>
-            <Route path="/" component={wrappedRoutes} />
+            <Route path="/" exact component={Home} />
+            <Route component={wrappedRoutes} />
           </Switch>
         </main>
     )
