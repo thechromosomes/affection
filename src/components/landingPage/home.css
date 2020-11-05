@@ -1,0 +1,8 @@
+/* for multistpper */
+.MuiStepper-vertical {
+    position: fixed;
+  }
+
+  .MuiStepper-root {
+    padding: 1.5% !important;
+  }

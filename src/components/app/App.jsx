@@ -42,8 +42,8 @@ class App extends PureComponent {
     return (
       <ThemeProvider theme={this.state.theme}>
         <Section>
-         <Header />
-        <ThemeButton handleClick={ (color) => this.changeColor(color)}/>
+         {/* <Header /> */}
+        {/* <ThemeButton handleClick={ (color) => this.changeColor(color)}/> */}
           <>{children}</>
         </Section>
       </ThemeProvider>
