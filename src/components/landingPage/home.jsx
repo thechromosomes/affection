@@ -12,7 +12,6 @@ const flipperStyle = {
     height: "90%",
     textAlign: "center",
     display: "inline-block",
-    marginTop: "10%"
 }
 class Home extends Component {
     constructor(props) {
@@ -39,11 +38,6 @@ class Home extends Component {
     render() {
         return (
             <Grid container>
-                <Grid item xs={12}>
-                <div style={{height: "20%"}}>
-                    <Header style={{height: "20%"}}/>
-                </div>
-                </Grid>
                 <Grid item xs={1}>
                     {/* <h1>this is custom</h1> */}
                 </Grid>

@@ -11,7 +11,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const colorPicked = {
     margin: "auto",
-    padding: "15",
 }
 
 class WizardTwo extends Component {
@@ -26,7 +25,12 @@ class WizardTwo extends Component {
                 { value: 'strawberry', label: 'strawberry' },
                 { value: 'vanilla', label: 'vanilla' },
             ],
-            tagInputValue: ""
+            tagInputValue: "",
+            postedBy: null,
+            postNameOption: [
+                { value: 'anonymous', label: 'anonymous' },
+                { value: 'chromosome', label: 'chromosome' },
+            ],
         }
     }
 
@@ -50,6 +54,10 @@ class WizardTwo extends Component {
         }
 
       };
+
+      handlePostedBy = (postedBy) => {
+        this.setState({ postedBy });
+      }
 
       createTag = () => {
           let tags =  [...this.state.tags]
@@ -79,7 +87,7 @@ class WizardTwo extends Component {
         return (
             <>
                 <div>
-                <button onClick={this.handleClickOpenClose}>Choose color</button>
+                <button style={{ backgroundColor: this.state.wallColor}}  onClick={this.handleClickOpenClose}>Choose wall color</button>
                 <Dialog
                 fullScreen
                 open={this.state.openColorPellete}
@@ -105,6 +113,13 @@ class WizardTwo extends Component {
                     onChange={this.handleTagChange}
                     options={this.state.tagsOptions}
                     onInputChange={this.handleInputChange}
+                />
+                <Select
+                    isSearchable
+                    placeholder="name your post"
+                    value={this.state.postedBy}
+                    onChange={this.handlePostedBy}
+                    options={this.state.postNameOption}
                 />
                 </div>
 

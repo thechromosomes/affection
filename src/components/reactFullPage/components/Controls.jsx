@@ -7,7 +7,6 @@ import StepButton from '@material-ui/core/StepButton';
 let controllerStyle = {
   marginLeft: "-8%",
   textAlign: "center",
-  marginTop: "10%"
 }
 
 export default class Controls extends React.Component {
