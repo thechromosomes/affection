@@ -11,14 +11,15 @@ import ReactSnackBar from "react-js-snackbar";
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 const textInput = React.createRef();
+const storedHtml = getFromLS()
 
 class WizardOne extends Component {
     constructor(props) {
       super(props);
       this.state = {
-          editorHtml: '',
+          editorHtml: JSON.parse(JSON.stringify(storedHtml)),
           theme: 'snow',
-          placeholder: "   Start engraving your emotions here",
+          placeholder: "Start engraving your emotions here",
           mainHeading: "",
           counTextLength: 0,
           mentionedUserTemp: null,
@@ -56,6 +57,10 @@ class WizardOne extends Component {
 
       handleChange = (html) => {
         this.setState({ editorHtml: html });
+        global.localStorage.setItem(
+          "editorHtml",
+          JSON.stringify(html)
+        )
         this.counTextLength()
       }
 
@@ -87,7 +92,7 @@ class WizardOne extends Component {
 
 
       handleMentionUser = (newentry) => {
-        let res = this.state.editorHtml.replace(this.state.mentionedUserTemp, "<span cursor: pointer;> <b>"+newentry+"</b> &nbsp;</span>");
+        let res = this.state.editorHtml.replace(this.state.mentionedUserTemp, "<span>" + "<b>" + "<span style=\"color: rgb(153, 51, 255);\">" + newentry + "</span>" + "</b> &nbsp;" + "</span>");
         this.state.editorHtml = res;
         this.setState({mentionedUser: []})
         this.refs.bodyInput.focus();
@@ -199,6 +204,21 @@ function undoChange() {
 
     WizardOne.propTypes = {
       placeholder: PropTypes.string,
+    }
+
+    // get html from local storage
+    function getFromLS() {
+      let ls = {};
+          if (localStorage.getItem("editorHtml") !== null) {
+            try {
+              ls = JSON.parse(localStorage.getItem("editorHtml"));
+            } catch (e) {
+              console.log("error", e)
+            }
+          } else{
+            ls = JSON.parse(`{}`)
+          }
+          return ls;
     }
 
 

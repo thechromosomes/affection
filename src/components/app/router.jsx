@@ -4,20 +4,26 @@ import Error from './error'
 import Home from '../landingPage/home'
 import Editor from '../editor/mainEditor'
 import MainWrapper from './mainWrapper'
+import UserDashboard from '../userProfile/userDashboard'
+import Login from '../login/logIn'
 
 
 
 // add routes for all pages
 const Pages = () => (
     <Switch>
+        <Route path="/" exact component={Home}/>
         <Route path="/edit" exact component={Editor}/>
-        <Route path="/" exact component={Home} />
+        <Route path="/login" exact component={Login}/>
+        <Route path="/userDashboard" exact component={UserDashboard}/>
+
         <Route component={Error} />
     </Switch>
 )
 
 // this will wrap the app into beauty
-const wrappedRoutes = () => (
+const wrappedRoutes = () => {
+  return(
     <>
       <MainWrapper>
         <Route component={Pages} />
@@ -25,6 +31,7 @@ const wrappedRoutes = () => (
 
     </>
   )
+}
 
 // this will specify route
 const Router = () => {

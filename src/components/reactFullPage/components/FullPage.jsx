@@ -19,8 +19,8 @@ export default class FullPage extends React.Component {
   }
 
   constructor(props) {
-    super(props);
 
+    super(props);
     this._isScrollPending = false;
     this._isScrolledAlready = false;
     this._slides = [];
@@ -32,8 +32,8 @@ export default class FullPage extends React.Component {
       activeSlide: props.initialSlide,
       slidesCount: FullPage.getChildrenCount(this.props.children),
     };
-  }
 
+  }
   componentDidMount() {
     this._isMobile = isMobileDevice();
     if (this._isMobile) {
@@ -46,6 +46,9 @@ export default class FullPage extends React.Component {
 
     this.onResize();
     this.scrollToSlide(this.props.initialSlide);
+
+    // for the backgroound color
+    // document.body.style.backgroundColor = "red"
   }
 
   componentDidUpdate() {
@@ -163,7 +166,6 @@ export default class FullPage extends React.Component {
       animatedScrollTo(this._slides[slide], this.props.duration, () => {
         this._isScrollPending = false;
         this._isScrolledAlready = true;
-
         this.props.afterChange({ from: currentSlide, to: slide });
       });
     }
@@ -201,10 +203,11 @@ export default class FullPage extends React.Component {
 
   render() {
     return (
-      <div style={{ height: this.state.height }}>
-        {this.renderControls()}
-        {this.props.children}
-      </div>
+
+        <div style={{ height: this.state.height}}>
+          {this.renderControls()}
+          {this.props.children}
+        </div>
     );
   }
 }

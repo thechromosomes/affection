@@ -8,9 +8,9 @@ class App extends PureComponent {
   render() {
     return (
       <BrowserRouter>
-        <div >
+        <>
           <Router />
-        </div>
+        </>
       </BrowserRouter>
     )
   }

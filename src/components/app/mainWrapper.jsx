@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Header from '../layout/header'
-import styled from 'styled-components';
+import Header from '../layout/header/header'
+import {createGlobalStyle} from 'styled-components';
 import Theme from './themeButton/themeProvider'
 
 
 
-const Section = styled.section`
-  color: ${props => props.value.theme.color};
-  padding: "3em";
-  text-align: center;
+const GlobalStyle = createGlobalStyle`
+html {
   background: ${props => props.value.theme.background};
+  height: 100%;
+  background-size: cover;
+  justify-content: center;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 `
 
 const originalLayouts = getFromLS();
@@ -37,23 +42,14 @@ class MainWrapper extends Component {
 
   render() {
     const { children } = this.props
-    let homePath = children._owner.memoizedProps.location.pathname
-
     return (
         <>
-        {homePath !== "/" ?
-        <Theme.Provider  value={{changeTheme: this.changeColor}}>
-        <Section value={{theme: this.state.theme}}>
-            <Header/>
-            <>{children}</>
-        </Section>
-        </Theme.Provider>
-
-      : <div>
-        <Header/>
-        {children}
-      </div>}
-      </>
+          <Theme.Provider  value={{changeTheme: this.changeColor, theme: this.state.theme}}>
+              <GlobalStyle value={{theme: this.state.theme}}/>
+              <Header/>
+              {children}
+          </Theme.Provider>
+        </>
     )
   }
 }
@@ -67,7 +63,7 @@ function getFromLS() {
             console.log("error", e)
           }
         } else{
-          ls = JSON.parse({"background":"linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)","color":"black"})
+          ls = JSON.parse(`{"background":"linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)","color":"black"}`)
         }
         return ls;
   }

@@ -3,20 +3,14 @@
     padding: 20px;
     height: 100%;
 }
+
 .ql-container.ql-snow {
-    height: 100%;
-    padding: 10px;
+    border: none !important
 }
 
-.ql-bubble {
-    height: 450px;
+.MuiBox-root-6 {
+    padding: 5px;
 }
-.ql-container.ql-snow {
-    height: 100%;
-    color: red
-  }
-
-
 
 
 

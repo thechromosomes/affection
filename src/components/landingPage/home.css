@@ -1,8 +1,23 @@
+ body{
+  text-align: center;
+}
+
 /* for multistpper */
 .MuiStepper-vertical {
-    position: fixed;
-  }
+  position: fixed;
+}
 
-  .MuiStepper-root {
-    padding: 1.5% !important;
-  }
+.MuiStepper-root {
+  padding: 1.5% !important;
+}
+
+.MuiPaper-root {
+  background-color: transparent !important
+}
+
+.modal_animation {
+  /* transform: scaleY(.01) scaleX(0); */
+  background: red;
+  /* animation: 1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards; */
+
+}

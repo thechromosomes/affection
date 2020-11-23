@@ -5,8 +5,7 @@ import Step from "@material-ui/core/Step";
 import StepButton from '@material-ui/core/StepButton';
 
 let controllerStyle = {
-  marginLeft: "-8%",
-  textAlign: "center",
+  right: "0px",
 }
 
 export default class Controls extends React.Component {
@@ -31,9 +30,11 @@ export default class Controls extends React.Component {
     const currentSlideIndex = getCurrentSlideIndex();
 
     return (
+      <div className="stppppper">
       <Stepper orientation="vertical" nonLinear style={controllerStyle} activeStep={currentSlideIndex}>
       {this.renderSlidesNumbers(currentSlideIndex)}
       </Stepper>
+      </div>
 
     );
   }

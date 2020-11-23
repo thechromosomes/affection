@@ -1,0 +1,61 @@
+.box {
+    margin: auto;
+    width: 80%;
+    display: grid;
+    text-align: center;
+    transition: 0.25s;
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    border: 0;
+    background: none;
+    display: inline-block;
+    margin: 15px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 10px 10px;
+    outline: none;
+    color: black;
+    border-radius: 24px;
+    transition: 0.25s
+}
+
+.box h1 {
+    color: black;
+    text-transform: uppercase;
+    font-weight: 500
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+    width: 300px;
+    border-color: #2ecc71
+}
+
+.box input[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: black;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer
+}
+
+.box input[type="submit"]:hover {
+    background: #2ecc71
+}
+
+.MuiToggleButton-root {
+    border: 0px !important;
+}
+
+.flippy-front, .flippy-back {
+    box-shadow: 0 0 black !important;
+}
