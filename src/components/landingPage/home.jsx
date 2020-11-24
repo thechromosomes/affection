@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid'
-import Dialog from "rc-dialog"
 import Button from '@material-ui/core/Button';
 import { FullPage, Slide } from '../reactFullPage';
 import Modal from 'react-modal';

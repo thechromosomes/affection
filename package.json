@@ -12,6 +12,7 @@
     "framer-motion": "^2.9.4",
     "prop-types": "^15.7.2",
     "quill-image-resize-module-react": "^3.0.0",
+    "rc-dialog": "^8.4.3",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-color": "^2.19.3",
