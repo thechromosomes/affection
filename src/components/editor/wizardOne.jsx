@@ -17,9 +17,9 @@ class WizardOne extends Component {
     constructor(props) {
       super(props);
       this.state = {
-          editorHtml: JSON.parse(JSON.stringify(storedHtml)),
+          editorHtml: storedHtml,
           theme: 'snow',
-          placeholder: "Start engraving your emotions here",
+          placeholder: "People says my fellings are hell to understand. So I ended up here. I hope you will understand...",
           mainHeading: "",
           counTextLength: 0,
           mentionedUserTemp: null,
@@ -27,6 +27,10 @@ class WizardOne extends Component {
           show: false,
           errorMessage: ""
       }
+    }
+
+    componentDidMount = () => {
+      this.counTextLength()
     }
 
       handleThemeChange = (newTheme) => {
@@ -208,7 +212,7 @@ function undoChange() {
 
     // get html from local storage
     function getFromLS() {
-      let ls = {};
+      let ls
           if (localStorage.getItem("editorHtml") !== null) {
             try {
               ls = JSON.parse(localStorage.getItem("editorHtml"));
@@ -216,7 +220,7 @@ function undoChange() {
               console.log("error", e)
             }
           } else{
-            ls = JSON.parse(`{}`)
+            ls = ""
           }
           return ls;
     }

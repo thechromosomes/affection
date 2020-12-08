@@ -42,12 +42,21 @@ class MainWrapper extends Component {
 
   render() {
     const { children } = this.props
+    const currentPath = children.props.pageProps.location.pathname
     return (
         <>
           <Theme.Provider  value={{changeTheme: this.changeColor, theme: this.state.theme}}>
               <GlobalStyle value={{theme: this.state.theme}}/>
-              <Header/>
-              {children}
+              {(currentPath !== "/")
+                ? <>
+                <Header/>
+                {children}
+                </>
+
+                : <>
+                {children}
+                </>
+              }
           </Theme.Provider>
         </>
     )

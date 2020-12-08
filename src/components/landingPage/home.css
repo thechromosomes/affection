@@ -21,3 +21,15 @@
   /* animation: 1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards; */
 
 }
+
+/* transition for main page modal */
+.ReactModal__Overlay {
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: all 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transform: translateX(0px);
+}
