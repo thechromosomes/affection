@@ -16,7 +16,7 @@ let controllerStyle = {
 export default class Controls extends React.Component {
   renderSlidesNumbers(currentSlideIndex) {
     const { slidesCount, scrollToSlide } = this.props;
-    const slidesNumbers = [];
+    // const slidesNumbers = [];
     // for (let i = 0; i < slidesCount; i++) {
     //   let stepperComponent =
     //   <Step key={i}>

@@ -27,7 +27,7 @@ class Home extends Component {
     render() {
         return (
             <Grid container>
-             <Grid item xs={10} sm={10} md={11} lg={11} xl={11}>
+             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                  <Modal
                     isOpen={this.state.showModal}
                     >
@@ -44,7 +44,8 @@ class Home extends Component {
                         />
                     </Modal>
                 </Grid>
-                <Grid item xs={10} sm={10} md={11} lg={11} xl={11}>
+                {!this.state.showModal &&
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <FullPage afterChange={this.scrole} initialSlide={this.state.currentSlide} controls>
                     {this.state.posts.map( (elem, index) => (
                     <Slide id={index}>
@@ -61,6 +62,7 @@ class Home extends Component {
                     ))}
                     </FullPage>
                 </Grid>
+                }
             </Grid>
          );
     }

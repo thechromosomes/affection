@@ -12,6 +12,13 @@
     padding: 5px;
 }
 
+/* style for preview card */
+.makeStyles-root-7 {
+    max-width: 80% !important;
+    width: 80% !important;
+}
 
-
-
+/* to hide scroll bar */
+.MuiCardContent-root::-webkit-scrollbar {
+    display: none;
+}

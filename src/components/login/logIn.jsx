@@ -47,6 +47,7 @@ class LogIn extends Component {
             confirmPass:"",
             email:"",
             avatar: "image/iconThumbnail.png",
+            editedAvatar: "image/iconThumbnail.png",
             displayname:"",
             logInUserName:"",
             logInpass: "",
@@ -59,7 +60,8 @@ class LogIn extends Component {
         this.setState({
             "email": response.profileObj.email,
             "displayname": response.profileObj.name || response.profileObj.givenName,
-            "avatar": response.profileObj.imageUrl
+            "avatar": response.profileObj.imageUrl,
+            "editedAvatar": response.profileObj.imageUrl
         })
     }
 
@@ -179,6 +181,7 @@ class LogIn extends Component {
             let url = Endpoints.UploadFile
             const res = await axios.post(url, formData, config);
             this.setState({"avatar": res.data.file})
+            this.setState({"editedAvatar": baseUrl+res.data.file})
             this.setState("imageHurdle", false)
 
         } catch(err){
@@ -224,7 +227,7 @@ class LogIn extends Component {
                     <h1>SignUp</h1>
                     <div className="avatar">
 
-                    <Avatar alt="Remy Sharp" src={baseUrl+this.state.avatar} /><span><input type="file" placeholder="upload DP" name="myFile" onChange={this.uploadFile}/></span>
+                    <Avatar alt="Remy Sharp" src={this.state.editedAvatar} /><span><input type="file" placeholder="upload DP" name="myFile" onChange={this.uploadFile}/></span>
                      {this.validator.message('avatar', this.state.avatar, 'required|avatar')}
 
                     </div>
@@ -235,7 +238,7 @@ class LogIn extends Component {
                     {this.validator.message('username', this.state.username, 'required|username')}
 
 
-                    <input type="text" placeholder="Display name" name="displayname" value={this.state.displayname} onChange={this.handleChange}/>
+                    <input type="text" placeholder="Pen name" name="displayname" value={this.state.displayname} onChange={this.handleChange}/>
                     {this.validator.message('displayname', this.state.displayname, 'required|string')}
 
                     <input type="text" placeholder="Email" name="email" value={this.state.email} onChange={this.handleChange}/>
@@ -253,7 +256,7 @@ class LogIn extends Component {
                     <p className="text-muted"> OR </p>
                     <div className="google_button">
                     <GoogleLogin
-                        clientId="526821602981-00h2ri9kdpq8nefrnffeasvle2igr1sn.apps.googleusercontent.com"
+                        clientId={process.env.REACT_APP_GOOGLE_AUTH_API}
                         buttonText="fetch credentials"
                         onSuccess={this.responseGoogle}
                         cookiePolicy={'single_host_origin'}

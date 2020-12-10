@@ -5,6 +5,8 @@ import isMobileDevice from '../utils/is-mobile';
 import { getObjectValues } from '../utils/helpers';
 import Slide from './Slide';
 import Controls from './Controls';
+import Header from '../../layout/header/header'
+
 
 const scrollMode = {
   FULL_PAGE: 'full-page',
@@ -203,8 +205,8 @@ export default class FullPage extends React.Component {
 
   render() {
     return (
-
         <div style={{ height: this.state.height}}>
+          <Header/>
           {this.renderControls()}
           {this.props.children}
         </div>

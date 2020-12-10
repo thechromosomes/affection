@@ -3,19 +3,43 @@ import { SketchPicker } from 'react-color'
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Select from 'react-select';
+import Fab from '@material-ui/core/Fab';
+import Grid from '@material-ui/core/Grid';
+import WallPreview from './wallPreview'
+
+
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const colorPicked = {
-    margin: "auto",
+// flaoating icon
+const floatingIcon1 = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+    marginLeft:"10px"
+};
+
+// flaoating icon 2
+const floatingIcon2 = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 75,
+    left: 'auto',
+    position: 'fixed',
 }
+
 
 class WizardTwo extends Component {
     constructor(props) {
         super(props);
+        console.log("props from w2", props)
         this.state = {
             tags: [],
             wallColor:"#fff",
@@ -85,50 +109,86 @@ class WizardTwo extends Component {
 
     render() {
         return (
-            <>
-                <div>
-                <button style={{ backgroundColor: this.state.wallColor}}  onClick={this.handleClickOpenClose}>Choose wall color</button>
+            <Grid container spacing={3} style={{margin: 0, width: "100%"}}>
                 <Dialog
-                fullScreen
-                open={this.state.openColorPellete}
-                TransitionComponent={Transition}
-                PaperProps={{ style: {backgroundColor: this.state.wallColor} }}
-                >
-                <div style={colorPicked}>
+                    fullScreen
+                    open={this.state.openColorPellete}
+                    TransitionComponent={Transition}
+                    style={ {backgroundColor: this.state.wallColor}}
+                    >
+                <div style={{ margin: "auto", background:this.state.wallColor }}>
                     <SketchPicker
                     width={400}
                     color={ this.state.wallColor }
                     onChange={ this.handleChange }
                     />
-                <button onClick={this.handleClickOpenClose}>I am done</button>
                 </div>
+                    <Fab
+                        variant="extended"
+                        size="large"
+                        color="primary"
+                        aria-label="add"
+                        style={{margin:100}}
+                        onClick={this.handleClickOpenClose}
+                        >
+                        looks awesome
+                    </Fab>
                 </Dialog>
 
                 {this.renderInsertTags()}
-                <Select
-                    isMulti
-                    isSearchable
-                    placeholder="select or create tags"
-                    value={this.state.tags}
-                    onChange={this.handleTagChange}
-                    options={this.state.tagsOptions}
-                    onInputChange={this.handleInputChange}
-                />
-                <Select
-                    isSearchable
-                    placeholder="name your post"
-                    value={this.state.postedBy}
-                    onChange={this.handlePostedBy}
-                    options={this.state.postNameOption}
-                />
-                </div>
 
-                <div>
-                    <button onClick={this.props.previousStep}>Previous Step</button>
-                    <button onClick={this.props.nextStep}>Next Step</button>
-                    <button onClick={this.props.firstStep}>First Step</button>
-                </div>
-            </>
+                {/* rendering wall preview component */}
+                <WallPreview
+                    editorHtml={this.props.editorHtml}
+                    mainHeading={this.props.mainHeading}
+                    wallColor={this.state.wallColor}
+                    handleClickOpenClose={this.handleClickOpenClose}
+                />
+
+                <Grid item xs={6}>
+                    <Select
+                        isMulti
+                        isSearchable
+                        placeholder="select or create tags"
+                        value={this.state.tags}
+                        onChange={this.handleTagChange}
+                        options={this.state.tagsOptions}
+                        onInputChange={this.handleInputChange}
+                />
+                </Grid>
+                <Grid item xs={6}>
+                    <Select
+                        isSearchable
+                        placeholder="name your post"
+                        value={this.state.postedBy}
+                        onChange={this.handlePostedBy}
+                        options={this.state.postNameOption}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Fab
+                        variant="extended"
+                        size="large"
+                        color="primary"
+                        aria-label="add"
+                        style={floatingIcon1}
+                        onClick={this.props.goBack}
+                        >
+                        Go back to editor
+                    </Fab>
+                    <Fab
+                        variant="extended"
+                        size="large"
+                        color="primary"
+                        aria-label="add"
+                        style={floatingIcon2}
+                        onClick={() => alert("posted")}
+                        >
+                        Let's Post
+                    </Fab>
+                </Grid>
+            </Grid>
          );
     }
 }

@@ -6,12 +6,25 @@ import TextField from '@material-ui/core/TextField';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Box from '@material-ui/core/Box';
 import ReactSnackBar from "react-js-snackbar";
+import Fab from '@material-ui/core/Fab';
+import { motion, useCycle } from "framer-motion";
+import WizardTwo from './wizardTwo'
 
 
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 const textInput = React.createRef();
 const storedHtml = getFromLS()
+
+// flaoating icon
+const floatingIcon = {
+  margin: 0,
+  top: 'auto',
+  right: 20,
+  bottom: 20,
+  left: 'auto',
+  position: 'fixed',
+};
 
 class WizardOne extends Component {
     constructor(props) {
@@ -24,8 +37,13 @@ class WizardOne extends Component {
           counTextLength: 0,
           mentionedUserTemp: null,
           mentionedUser: [],
+          moveNext: false,
           show: false,
-          errorMessage: ""
+          errorMessage: "",
+          nextButton: {
+            "rotate": 360,
+            "scale": 1
+          }
       }
     }
 
@@ -55,7 +73,7 @@ class WizardOne extends Component {
           this.showSnackBar(`come on just ${stringsRemained} strings needed.`)
           this.refs.bodyInput.focus();
         }else{
-          this.props.nextStep()
+          this.setState({"moveNext": true})
         }
       };
 
@@ -79,6 +97,15 @@ class WizardOne extends Component {
         let finalResult = (result.length / 124) * 100
         this.setState({counTextLength: finalResult})
 
+        // scale the next button
+        if (this.state.counTextLength == 100){
+          let scaleTemp = {...this.state.nextButton}
+          scaleTemp.rotate = 359
+          scaleTemp.scale = 1.2
+          this.setState({"nextButton": scaleTemp})
+        }
+
+        // mention user
         if(result.indexOf('@') >= 0){
           let arr = result.split('@');
           this.setState({mentionedUserTemp: "@" + arr[1]})
@@ -93,6 +120,9 @@ class WizardOne extends Component {
 
       }
 
+      goBack = () => {
+        this.setState({"moveNext": false})
+      }
 
 
       handleMentionUser = (newentry) => {
@@ -114,50 +144,65 @@ class WizardOne extends Component {
 
 
     render() {
+      let {nextButton, theme, editorHtml, placeholder, show, errorMessage, mainHeading, mentionedUser} = this.state
         return (
             <>
-              <ReactSnackBar Icon={<span>🦄</span>} Show={this.state.show}>
-                {this.state.errorMessage}
+            {!this.state.moveNext ?
+            <>
+              <ReactSnackBar Icon={<span>🦄</span>} Show={show}>
+                {errorMessage}
               </ReactSnackBar>
 
-                <div className="themeSwitcher">
-                    <label> Theme </label>
-                    <select onChange={(e) =>
-                    this.handleThemeChange(e.target.value)}>
-                    <option value="snow">Snow</option>
-                    <option value="bubble">Bubble</option>
-                    </select>
-                  <button onClick={this.handleNextStep}>Next Step</button>
-                </div>
-
                 <div className="text_editor" >
-                <TextField label="Name your post" inputRef={textInput} variant="outlined" autoFocus fullWidth onChange={this.handleMainHeading}/>
+                  <TextField label="Name your post" inputRef={textInput} variant="outlined" autoFocus fullWidth onChange={this.handleMainHeading} defaultValue={this.state.mainHeading}/>
 
-                {this.renderButtonProgress()}
+                  {this.renderButtonProgress()}
 
-                <ReactQuill
-                    ref="bodyInput"
-                    theme={this.state.theme}
-                    onChange={this.handleChange}
-                    value={this.state.editorHtml}
-                    modules={WizardOne.modules}
-                    placeholder={this.state.placeholder}
-                />
-                <div>
-                {this.state.mentionedUser.length > 1 &&
-                  <ul>
-                  {this.state.mentionedUser.map(item => (
-                    <li style={{cursor: "pointer"}} onClick={() => this.handleMentionUser(item)}>
-                    {item}
-                    </li>
-                  ))}
-                  </ul>
-                }
+                  <ReactQuill
+                      ref="bodyInput"
+                      theme={theme}
+                      onChange={this.handleChange}
+                      value={editorHtml}
+                      modules={WizardOne.modules}
+                      placeholder={placeholder}
+                  />
+                  <div className="mention_user">
+                  {mentionedUser.length > 1 &&
+                    <ul>
+                    {mentionedUser.map(item => (
+                      <li style={{cursor: "pointer"}} onClick={() => this.handleMentionUser(item)}>
+                      {item}
+                      </li>
+                    ))}
+                    </ul>
+                  }
+                  </div>
                 </div>
 
-                <div>
-                </div>
-                </div>
+                  <motion.div style={floatingIcon}
+                    initial={{  x: "-300vh" }}
+                    animate={{scale: nextButton.scale, x:0}}
+                    transition={{
+                        delay: 1,
+                        type: "spring",
+                        duration: 2,
+                        stiffness: 500,
+                        damping: 10
+                      }}
+                    >
+                    <Fab
+                      variant="extended"
+                      size="large"
+                      color="primary"
+                      aria-label="add"
+                      style={floatingIcon}
+                      onClick={this.handleNextStep}
+                    >
+                    Next
+                    </Fab>
+                  </motion.div>
+            </>
+            : <WizardTwo editorHtml={editorHtml} mainHeading={mainHeading} mentionedUser={mentionedUser} goBack={this.goBack}/>}
 
             </>
          );
@@ -213,16 +258,16 @@ function undoChange() {
     // get html from local storage
     function getFromLS() {
       let ls
-          if (localStorage.getItem("editorHtml") !== null) {
-            try {
-              ls = JSON.parse(localStorage.getItem("editorHtml"));
-            } catch (e) {
-              console.log("error", e)
-            }
-          } else{
-            ls = ""
+        if (localStorage.getItem("editorHtml") !== null) {
+          try {
+            ls = JSON.parse(localStorage.getItem("editorHtml"));
+          } catch (e) {
+            console.log("error", e)
           }
-          return ls;
+        } else{
+          ls = ""
+        }
+        return ls;
     }
 
 
