@@ -17,7 +17,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 import { Grid } from '@material-ui/core';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import FontPicker from "font-picker-react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,10 +41,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecipeReviewCard(props) {
+export default function WallPreview(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const [activeFontFamily, setActiveFontFamily] = React.useState("Open Sans");
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 
   const handleExpandClick = () => {
@@ -74,10 +73,11 @@ export default function RecipeReviewCard(props) {
           </Avatar>
           </IconButton>
         }
-        title="sagar kumar"
-        subheader="September 14, 2016"
+        title={props.displayname}
+        subheader={new Date(Date.now()).toLocaleDateString(undefined, options)}
       />
-      <CardContent style={{backgroundColor: props.wallColor, height: '50vh', overflow: "scroll"}}>
+      <CardContent style={{backgroundColor: props.wallColor, height: '50vh' , overflow: "scroll" }}>
+          <h3 className="apply-font" >{props.mainHeading}</h3>
           <div className="apply-font" dangerouslySetInnerHTML={{__html: props.editorHtml}}/>
       </CardContent>
       <CardActions disableSpacing>
@@ -102,17 +102,6 @@ export default function RecipeReviewCard(props) {
         </IconButton>
       </CardActions>
     </Card>
-
-{/* to set font style */}
-    <div>
-        <FontPicker
-            apiKey={process.env.REACT_APP_GOOGLE_FONT_API}
-            activeFontFamily={activeFontFamily}
-            onChange={(nextFont) =>
-                setActiveFontFamily(nextFont.family)
-            }
-        />
-    </div>
 
     </Grid>
   );

@@ -16,23 +16,17 @@ let controllerStyle = {
 export default class Controls extends React.Component {
   renderSlidesNumbers(currentSlideIndex) {
     const { slidesCount, scrollToSlide } = this.props;
-    // const slidesNumbers = [];
-    // for (let i = 0; i < slidesCount; i++) {
-    //   let stepperComponent =
-    //   <Step key={i}>
-    //       <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(i)} ></StepLabel>
-    //   </Step>
-    //   slidesNumbers.push(stepperComponent);
-    // }
-    return (
-      <Step key={currentSlideIndex}>
-        <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex )} ></StepLabel>
-        <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex + 1)} ></StepLabel>
-        <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex + 2)} ></StepLabel>
-        <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex + 3)} ></StepLabel>
-      </Step>
-    )
-  }
+      return(
+        <>
+          <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(0)} >first wall</StepLabel>
+          <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex )} ></StepLabel>
+          <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex + 1)} ></StepLabel>
+          <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex + 2)} ></StepLabel>
+          <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex + 3)} ></StepLabel>
+          <StepLabel StepIconComponent={()=>this.ColorlibStepIcon(currentSlideIndex + 4)} ></StepLabel>
+        </>
+      )
+    }
 
   ColorlibStepIcon(i) {
     return (

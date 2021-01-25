@@ -45,7 +45,7 @@ const overlay = {
 }
 
 const navItemStyle = {
-  fontSize: "70px",
+  fontSize: "40px",
   textAlign: "center",
   listStyle: "none",
   display: "block",
@@ -61,7 +61,7 @@ export const Navigation = (props) => {
     <motion.div style={overlay} exit={{ opacity: 0, y: 50, transition: { stiffness: 1000, velocity: -100, duration: 5 } }}>
     <MenuToggle toggle={() => props.toggle()} />
     <motion.div variants={menuItems} animate="closed">
-    <motion.button
+    {/* <motion.button
       style={navItemStyle}
       variants={variants}
       initial="open"
@@ -70,7 +70,7 @@ export const Navigation = (props) => {
       whileTap={{ scale: 0.95 }}
       >
       <ThemeButton/>
-    </motion.button>
+    </motion.button> */}
     {navItem.map( (item) => (
       <motion.button
       style={navItemStyle}

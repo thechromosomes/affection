@@ -6,6 +6,7 @@ import Editor from '../editor/mainEditor'
 import MainWrapper from './mainWrapper'
 import UserDashboard from '../userProfile/userDashboard'
 import Login from '../login/logIn'
+import SinglePostView from '../singlePost/singlePostView'
 
 
 // handle private route
@@ -25,10 +26,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 // add routes for all pages
 const Pages = () => (
     <Switch>
-        <Route protected={false} path="/" exact component={Home}/>
-        <Route protected={false} path="/login" exact component={Login}/>
-        <PrivateRoute protected={false} path="/edit" exact component={Editor}/>
-        <PrivateRoute protected={true} path="/userDashboard" exact component={UserDashboard} />
+        <Route path="/" exact component={Home}/>
+        <Route path="/login" exact component={Login}/>
+        <Route path="/post/:id" exact component={SinglePostView}/>
+
+        <PrivateRoute path="/edit" exact component={Editor}/>
+        <PrivateRoute path="/userDashboard" exact component={UserDashboard} />
         <Route component={Error} />
     </Switch>
 )

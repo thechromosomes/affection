@@ -1,5 +1,5 @@
-// export const baseUrl = "http://localhost:3003/api/"
-export const baseUrl = "https://1ab0978e3040.ngrok.io/api/"
+export const baseUrl = "http://localhost:3003/api/"
+// export const baseUrl = "https://210e0d0d97ed.ngrok.io/api/"
 
 
 const endPoints = {
@@ -10,6 +10,10 @@ const endPoints = {
         "register": baseUrl + "register",
         "logIn": baseUrl + "login"
     },
+    "Tags": {
+        "createTags": baseUrl + "createtag",
+        "fetchTags": baseUrl + "fetchtags"
+    }
 }
 
 

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import ToggleButton from '@material-ui/lab/ToggleButton';
 import Button from '@material-ui/core/Button';
 import $ from 'jquery';
 import axios from 'axios';
@@ -231,8 +229,6 @@ class LogIn extends Component {
                      {this.validator.message('avatar', this.state.avatar, 'required|avatar')}
 
                     </div>
-
-                    <p className="text-muted"> Please enter your credential</p>
 
                     <input type="text" placeholder="Username" value={this.state.username} name="username" onChange={this.checkUserName}/>
                     {this.validator.message('username', this.state.username, 'required|username')}

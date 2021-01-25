@@ -16,7 +16,7 @@ import 'react-quill/dist/quill.bubble.css';
 const textInput = React.createRef();
 const storedHtml = getFromLS()
 
-// flaoating icon
+// floating icon
 const floatingIcon = {
   margin: 0,
   top: 'auto',
@@ -32,7 +32,7 @@ class WizardOne extends Component {
       this.state = {
           editorHtml: storedHtml,
           theme: 'snow',
-          placeholder: "People says my fellings are hell to understand. So I ended up here. I hope you will understand...",
+          placeholder: "People says my feelings are hell to understand. So I ended up here. I hope you will...",
           mainHeading: "",
           counTextLength: 0,
           mentionedUserTemp: null,
@@ -203,7 +203,6 @@ class WizardOne extends Component {
                   </motion.div>
             </>
             : <WizardTwo editorHtml={editorHtml} mainHeading={mainHeading} mentionedUser={mentionedUser} goBack={this.goBack}/>}
-
             </>
          );
     }

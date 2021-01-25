@@ -22,3 +22,8 @@
 .MuiCardContent-root::-webkit-scrollbar {
     display: none;
 }
+
+/* snackbar */
+.MuiAlert-filledSuccess {
+    color: #0e0e0e !important;
+}

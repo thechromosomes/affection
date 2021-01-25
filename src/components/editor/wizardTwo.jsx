@@ -6,7 +6,11 @@ import Select from 'react-select';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import WallPreview from './wallPreview'
-
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import axios from 'axios';
+import Endpoints, {baseUrl} from '../apiEndpoints';
+import FontPicker from "font-picker-react";
 
 
 
@@ -14,7 +18,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-// flaoating icon
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} className="preview_snackBar"/>;
+  }
+
+// floating icon
 const floatingIcon1 = {
     margin: 0,
     top: 'auto',
@@ -25,7 +33,7 @@ const floatingIcon1 = {
     marginLeft:"10px"
 };
 
-// flaoating icon 2
+// floating icon 2
 const floatingIcon2 = {
     margin: 0,
     top: 'auto',
@@ -33,13 +41,12 @@ const floatingIcon2 = {
     bottom: 75,
     left: 'auto',
     position: 'fixed',
-}
+};
 
 
 class WizardTwo extends Component {
     constructor(props) {
         super(props);
-        console.log("props from w2", props)
         this.state = {
             tags: [],
             wallColor:"#fff",
@@ -50,11 +57,14 @@ class WizardTwo extends Component {
                 { value: 'vanilla', label: 'vanilla' },
             ],
             tagInputValue: "",
-            postedBy: null,
+            postedBy: "",
             postNameOption: [
-                { value: 'anonymous', label: 'anonymous' },
-                { value: 'chromosome', label: 'chromosome' },
+                { value: 'anonymous', label: 'anonymous' }
             ],
+            openSnackBar: false,
+            displayname: "",
+            userId: "",
+            fontFamily: "Open Sans"
         }
     }
 
@@ -62,12 +72,33 @@ class WizardTwo extends Component {
         this.setState({ wallColor: color.hex });
     }
 
+    setFontFamily = (font) => {
+        this.setState({"fontFamily": font})
+    }
+
+    fetchTags = () => {
+        let url = Endpoints.Tags.fetchTags
+        axios.post(url)
+        .then((response) => {
+            if(response.data.status === false){
+                alert(response.data.message)
+            }else{
+                this.setState({"tagsOptions": response.data.tags})
+                alert("success bro")
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert(error)
+        })
+    }
+
     handleClickOpenClose = () => {
         this.setState({openColorPellete: !this.state.openColorPellete})
     };
 
-    handleTagChange = tags => {
-        this.setState({tags});
+    handleTagChange = async tags => {
+        this.setState({"tags": tags});
         this.setState({tagInputValue: ""})
       };
 
@@ -80,24 +111,41 @@ class WizardTwo extends Component {
       };
 
       handlePostedBy = (postedBy) => {
-        this.setState({ postedBy });
+          if(postedBy.value === "anonymous") {
+              this.setState({"openSnackBar": true})
+          }
+        this.setState({"postedBy": postedBy });
       }
 
       createTag = () => {
-          let tags =  [...this.state.tags]
-          let inputData = {"value":this.state.tagInputValue, "label": this.state.tagInputValue }
-          tags.push(inputData)
-          this.setState({tags})
-          this.setState({tagInputValue: ""})
+        let url = Endpoints.Tags.createTags
+        axios.post(url, {"createBy": this.state.userId, "tagName": this.state.tagInputValue})
+        .then((response) => {
+            if(response.data.status === false){
+                alert(response.data.message)
+            }else{
+                this.fetchTags()
+                let tags =  [...this.state.tags]
+                let inputData =   { "value": response.data.tag.unique_id, "label": response.data.tag.tag_name}
+                tags.push(inputData)
+                this.setState({tags})
+                this.setState({tagInputValue: ""})
+                alert("success bro")
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert(error)
+        })
       }
 
       renderInsertTags = () => {
-        let filterTag = this.state.tagsOptions.filter(tag => tag.value === this.state.tagInputValue)
+        let filterTag = this.state.tagsOptions.filter(tag => tag.label === this.state.tagInputValue)
         if (filterTag.length <= 0 && this.state.tagInputValue !== ""){
             return(
                 <>
-                <h1>{this.state.tagInputValue}</h1>
-                <button onClick={this.createTag}>create tag</button>
+                    <h1>{this.state.tagInputValue}</h1>
+                    <button onClick={this.createTag}>create tag</button>
                 </>
             )
          }else {
@@ -105,6 +153,22 @@ class WizardTwo extends Component {
                  false
              )
          }
+      }
+
+      closeSnackBar = () => {
+          this.setState({"openSnackBar": false})
+      }
+
+      componentDidMount(){
+        let userData =   getFromLS()
+        this.setState({"displayname": userData.displayname})
+        this.setState({"userId": userData.unique_id})
+        let postNameOption = [...this.state.postNameOption]
+        postNameOption.push({ value: userData.username, label: userData.username })
+        this.setState({postNameOption})
+
+        // fetch tags
+        this.fetchTags()
       }
 
     render() {
@@ -135,17 +199,18 @@ class WizardTwo extends Component {
                     </Fab>
                 </Dialog>
 
-                {this.renderInsertTags()}
-
                 {/* rendering wall preview component */}
                 <WallPreview
                     editorHtml={this.props.editorHtml}
                     mainHeading={this.props.mainHeading}
                     wallColor={this.state.wallColor}
                     handleClickOpenClose={this.handleClickOpenClose}
+                    displayname={this.state.displayname}
                 />
 
-                <Grid item xs={6}>
+                {this.renderInsertTags()}
+
+                <Grid item xs={4}>
                     <Select
                         isMulti
                         isSearchable
@@ -156,13 +221,30 @@ class WizardTwo extends Component {
                         onInputChange={this.handleInputChange}
                 />
                 </Grid>
-                <Grid item xs={6}>
+
+                <Snackbar open={this.state.openSnackBar} autoHideDuration={6000}>
+                    <Alert onClose={this.closeSnackBar} severity="success">
+                    You have chosen an anonymous user. which means you can't control the post further and it will never show in your dashboard. just remember it's not your post anyway. it's anonymous now.
+                    </Alert>
+                </Snackbar>
+
+                <Grid item xs={4}>
                     <Select
                         isSearchable
-                        placeholder="name your post"
+                        placeholder="who's posting"
                         value={this.state.postedBy}
                         onChange={this.handlePostedBy}
                         options={this.state.postNameOption}
+                    />
+                </Grid>
+
+                <Grid item xs={4}>
+                    <FontPicker
+                        apiKey={process.env.REACT_APP_GOOGLE_FONT_API}
+                        activeFontFamily={this.state.fontFamily}
+                        onChange={(nextFont) =>
+                            this.setFontFamily(nextFont.family)
+                        }
                     />
                 </Grid>
 
@@ -192,5 +274,20 @@ class WizardTwo extends Component {
          );
     }
 }
+
+  // get html from local storage
+  function getFromLS() {
+    let ls
+      if (localStorage.getItem("state") !== null) {
+        try {
+          ls = JSON.parse(localStorage.getItem("state"));
+        } catch (e) {
+          console.log("error", e)
+        }
+      } else{
+        ls = ""
+      }
+      return ls;
+  }
 
 export default WizardTwo;
