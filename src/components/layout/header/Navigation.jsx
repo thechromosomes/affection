@@ -2,6 +2,7 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { MenuToggle } from "./MenuToggle";
 import ThemeButton from "../../app/themeButton/themeButtons"
+import SocialIcons from './social-icons/social'
 
 const variants = {
   open: {
@@ -72,17 +73,23 @@ export const Navigation = (props) => {
       <ThemeButton/>
     </motion.button> */}
     {navItem.map( (item) => (
-      <motion.button
-      style={navItemStyle}
-      variants={variants}
-      initial="open"
-      animate="closed"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      >
-      {item}
-      </motion.button>
+      <>
+        <motion.button
+        style={navItemStyle}
+        variants={variants}
+        initial="open"
+        animate="closed"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        >
+        {item}
+        </motion.button>
+      </>
     ))}
+
+    {/* custom social icons */}
+    <SocialIcons/>
+
     </motion.div>
     </motion.div>
   );
